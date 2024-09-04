@@ -10,7 +10,7 @@ public class Program {
 
 	public static void main(String[] args) throws ParseException {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		
 		Post p1 = new Post (sdf.parse("21/06/2018 13:05:44"),
 				"Traveling to New Zealand",
