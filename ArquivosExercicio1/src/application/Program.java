@@ -17,7 +17,7 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		Scanner sc = new Scanner(System.in);
+		try (Scanner sc = new Scanner(System.in)){
 		
 		Locale.setDefault(Locale.US);
 		System.out.println("Enter csv file folder: ");
@@ -28,7 +28,7 @@ public class Program {
 		
 		List<Product> products;
 		
-		try {
+		
 			products = readInFile(sourceFile);
 
 			generateOutFile(sourcePath, products);
@@ -36,8 +36,6 @@ public class Program {
 		catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		sc.close();
 	}
 	
 
@@ -48,7 +46,20 @@ public class Program {
 			
 			String line = br.readLine();
 			
-			addToList(br, line, products);
+			while (line != null) {
+				
+				String[] productData = splitLine(line);
+				
+				String name = productData[0];
+				Double price = Double.parseDouble(productData[1]);
+				Integer quantity = Integer.parseInt(productData[2]);
+						
+				addToList(products, name, price, quantity);
+				
+				line = br.readLine();
+			}
+			
+			
 			
 		}
 		catch (IOException e){
@@ -58,20 +69,16 @@ public class Program {
 		return products;
 	}
 	
-	private static void addToList(BufferedReader br, String line, List<Product> products) throws IOException {
-		while (line != null) {
-			
-			String[] productData = line.split(",");
-			
-			String name = productData[0];
-			Double price = Double.parseDouble(productData[1]);
-			Integer quantity = Integer.parseInt(productData[2]);
-					
-			products.add(new Product(name, price, quantity));
-			
-			line = br.readLine();
-		}
+	private static String[] splitLine(String line) {
+		return line.split(",");
 	}
+	
+	private static void addToList(List<Product> products, String name, Double price, Integer quantity) throws IOException {
+		
+		products.add(new Product(name, price, quantity));
+		
+	}
+	
 	
 	private static boolean listIsEmpty(List<Product> products) {
 		return products.isEmpty();
