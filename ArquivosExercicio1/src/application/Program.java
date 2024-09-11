@@ -21,39 +21,92 @@ public class Program {
 		
 		Locale.setDefault(Locale.US);
 		System.out.println("Enter csv file folder: ");
-		String strPath = sc.nextLine();
+		String strSource = sc.nextLine();
 		
-		File filePath = new File(strPath);
-		String outFilePath = filePath.getParent() + "\\out.txt";
+		File sourceFile = new File(strSource);
+		String sourcePath = sourceFile.getParent();
 		
+		List<Product> products;
 		
+		try {
+			products = readInFile(sourceFile);
+
+			generateOutFile(sourcePath, products);
+		}
+		catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		sc.close();
+	}
+	
+
+	private static List<Product> readInFile(File file) throws IOException{
 		List<Product> products = new ArrayList<>();
 		
-		//READING FILE
-		try (BufferedReader br = new BufferedReader(new FileReader(strPath))){
+		try (BufferedReader br = new BufferedReader(new FileReader(file))){
 			
 			String line = br.readLine();
 			
-			while (line != null) {
-				
-				String[] productData = line.split(",");
-				
-				String name = productData[0];
-				Double price = Double.parseDouble(productData[1]);
-				Integer quantity = Integer.parseInt(productData[2]);
-						
-				products.add(new Product(name, price, quantity));
-				
-				line = br.readLine();
-			}
+			addToList(br, line, products);
 			
 		}
 		catch (IOException e){
-			e.printStackTrace();
+			throw new IOException("File not found");
 		}
 		
-		//WRITING FILE
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFilePath, true))){
+		return products;
+	}
+	
+	private static void addToList(BufferedReader br, String line, List<Product> products) throws IOException {
+		while (line != null) {
+			
+			String[] productData = line.split(",");
+			
+			String name = productData[0];
+			Double price = Double.parseDouble(productData[1]);
+			Integer quantity = Integer.parseInt(productData[2]);
+					
+			products.add(new Product(name, price, quantity));
+			
+			line = br.readLine();
+		}
+	}
+	
+	private static boolean listIsEmpty(List<Product> products) {
+		return products.isEmpty();
+	}
+	
+	private static void generateOutFile(String sourcePath, List<Product> products) throws IOException {
+		
+		if (!listIsEmpty(products)) {
+			String outFolderPath = createOutFolder(sourcePath);
+			
+			String outFilePath = createOutFile(outFolderPath);
+			
+			writeOutFile(outFilePath, products);
+			
+			return;
+		}
+		throw new IOException("In file is empty");
+		
+	}
+	
+	
+	private static String createOutFolder(String sourcePath) {
+		String outFolderPath = sourcePath + "\\out";
+		new File(outFolderPath).mkdir();
+		return outFolderPath;
+	}
+	
+	private static String createOutFile(String outFolderPath) {
+		String outFilePath = outFolderPath + "\\out.txt";
+		new File(outFilePath);
+		return outFilePath;
+	}
+	
+	private static void writeOutFile(String outFilePath, List<Product> products) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFilePath))){
 			
 			for (Product p : products) {
 				
@@ -66,10 +119,7 @@ public class Program {
 		catch (IOException e){
 			e.printStackTrace();
 		}
-		
-		
-		
-		sc.close();
 	}
-
+	
+	
 }
