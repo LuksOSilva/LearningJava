@@ -28,10 +28,10 @@ public class Program {
 		
 		List<Product> products;
 		
-		
 			products = readInFile(sourceFile);
 
 			generateOutFile(sourcePath, products);
+			
 		}
 		catch (IOException e) {
 			System.out.println(e.getMessage());
