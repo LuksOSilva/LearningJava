@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import model.entities.Contract;
 import model.entities.Installment;
+import model.services.InstallmentService;
 import model.services.PaypalService;
 
 public class Program {
@@ -33,11 +34,12 @@ public class Program {
 			System.out.print("Number of Installments: ");
 			int numberOfInstallments = sc.nextInt();
 			
-			contract = new Contract(numberOfContract, startOfContract, valueOfContract, new PaypalService());
+			contract = new Contract(numberOfContract, startOfContract, valueOfContract);
+			
+			InstallmentService installmentService = new InstallmentService(new PaypalService());
 			
 			Installment[] installments;
-			
-			installments = contract.getInstallmentService().generateInstallments(contract, numberOfInstallments);
+			installments = installmentService.generateInstallments(contract, numberOfInstallments);
 			
 			contract.setInstallments(installments);
 			

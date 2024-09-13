@@ -2,7 +2,6 @@ package model.entities;
 
 import java.time.LocalDate;
 
-import model.services.InstallmentService;
 
 public class Contract {
 	
@@ -11,14 +10,11 @@ public class Contract {
 	private Double totalValue;
 	
 	private Installment[] installments;
-	private InstallmentService installmentService;
 
-
-	public Contract(Integer number, LocalDate startOfContract, Double totalValue, InstallmentService installmentService) {
+	public Contract(Integer number, LocalDate startOfContract, Double totalValue) {
 		this.number = number;
 		this.startOfContract = startOfContract;
 		this.totalValue = totalValue;
-		this.installmentService = installmentService;
 	}
 	
 	public Integer getNumber() {
@@ -33,9 +29,6 @@ public class Contract {
 		return totalValue;
 	}
 	
-	public InstallmentService getInstallmentService() {
-		return installmentService;
-	}
 	
 	public void setInstallments(Installment[] installments) {
 		this.installments = installments;
