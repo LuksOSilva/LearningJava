@@ -46,7 +46,7 @@ public class Program {
 		
 		
 		System.out.println("Invoice: ");
-		System.out.println("Basic yayment: " + carRental.getInvoice().getBasicPayment());
+		System.out.println("Basic Payment: " + carRental.getInvoice().getBasicPayment());
 		System.out.println("Tax: " + carRental.getInvoice().getTax());
 		System.out.println("Total Payment: " + carRental.getInvoice().getTotalPayment());
 		
