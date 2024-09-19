@@ -3,20 +3,20 @@ package services;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrintService {
+public class PrintService<Type> {
 	
-	private List<Integer> list;
+	private List<Type> list;
 
 	
 	public PrintService() {
 		list = new ArrayList<>();
 	}
 	
-	public PrintService(List<Integer> list) {
+	public PrintService(List<Type> list) {
 		this.list = list;
 	}
 	
-	public void addValue(int value) {
+	public void addValue(Type value) {
 		list.add(value);
 	}
 	
@@ -26,7 +26,7 @@ public class PrintService {
 		
 	}
 	
-	public Integer first() {
+	public Type first() {
 		if (list.isEmpty()) {
 			throw new IllegalStateException("List is empty");
 		}

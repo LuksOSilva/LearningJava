@@ -9,7 +9,7 @@ public class Program {
 	public static void main(String[] args) {
 		
 		
-		PrintService ps = new PrintService();
+		PrintService<Integer> ps = new PrintService<>();
 		
 		try (Scanner sc = new Scanner(System.in)) {
 		
